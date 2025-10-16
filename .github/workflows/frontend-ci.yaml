@@ -10,7 +10,7 @@ jobs:
   lint-and-build:
     runs-on: ubuntu-latest
     strategy:
-      matirx:
+      matrix:
         node-verson: [16.x, 18.x, 20.x]
     steps:
       - uses: actions/checkout@v3
