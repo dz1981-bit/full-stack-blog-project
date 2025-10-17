@@ -42,7 +42,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/blog-frontend:latest
           # build-args: VITE_BACKEND_URL=${{ steps.deploy-backend.outputs.url }}/api/v1
-          build-args: VITE_BACKEND_URL=https://blog-backend-645447854166.us-east4.run.app/api/v1
+          build-args: VITE_BACKEND_URL=https://blog-backend-645447854166.us-east4.run.app/api/v1/posts
       - id: deploy-frontend
         name: Deploy frontend
         uses: google-github-actions/deploy-cloudrun@v1
