@@ -47,5 +47,5 @@ jobs:
         uses: google-github-actions/deploy-cloudrun@v1
         with:
           service: blog-frontend
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/blog-frontend
+          image: ${{ secrets.DOCKERHUB_USERNAME }}/blog-frontend:latest
           region: ${{ secrets.GOOGLECLOUD_REGION }}
