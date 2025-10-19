@@ -18,6 +18,7 @@ services:
   blog-frontend:
     build:
       context: .
+      no-cache: true
       args:
         VITE_BACKEND_URL: https://fantastic-memory-gjgpwvrrjq63x6x-3001.app.github.dev/api/v1
     ports:
