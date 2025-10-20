@@ -18,10 +18,8 @@ services:
   blog-frontend:
     build:
       context: .
-      
       args:
         VITE_BACKEND_URL: https://fantastic-memory-gjgpwvrrjq63x6x-3001.app.github.dev/api/v1
-    image: dzitnick/blog-frontend:latest
     ports:
       - '3000:80'
     depends_on:
