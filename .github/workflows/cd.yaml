@@ -27,14 +27,14 @@ jobs:
           file: ./backend/Dockerfile
           push: true
           # tags: ${{ secrets.DOCKERHUB_USERNAME }}/blog-backend:latest
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/blog-backend:blue
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/blog-backend
       - id: deploy-backend
         name: Deploy backend
         uses: google-github-actions/deploy-cloudrun@v1
         with:
           service: blog-backend
           # image: ${{ secrets.DOCKERHUB_USERNAME }}/blog-backend:latest
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/blog-backend:blue
+          image: ${{ secrets.DOCKERHUB_USERNAME }}/blog-backend
           region: ${{ secrets.GOOGLECLOUD_REGION }}
       - name: Build and push frontend image
         uses: docker/build-push-action@v4
@@ -43,7 +43,7 @@ jobs:
           file: ./Dockerfile
           push: true
           # tags: ${{ secrets.DOCKERHUB_USERNAME }}/blog-frontend:latest
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/blog-frontend:blue
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/blog-frontend
           build-args: VITE_BACKEND_URL=${{ steps.deploy-backend.outputs.url }}/api/v1
       - id: deploy-frontend
         name: Deploy frontend
@@ -51,5 +51,5 @@ jobs:
         with:
           service: blog-frontend
           # image: ${{ secrets.DOCKERHUB_USERNAME }}/blog-frontend:latest
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/blog-frontend:blue
+          image: ${{ secrets.DOCKERHUB_USERNAME }}/blog-frontend
           region: ${{ secrets.GOOGLECLOUD_REGION }}
