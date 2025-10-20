@@ -10,7 +10,7 @@ services:
     environment:
       - PORT=3001
       - DATABASE_URL=mongodb://blog-database:27017/blog
-    pull_policy: always
+    pull_policy: !reset
     ports:
       - '3001:3001'
     depends_on:
@@ -21,7 +21,7 @@ services:
       context: .
       args:
         VITE_BACKEND_URL: https://fantastic-memory-gjgpwvrrjq63x6x-3001.app.github.dev/api/v1
-    pull_policy: always
+    pull_policy: !reset
     ports:
       - '3000:80'
     depends_on:
