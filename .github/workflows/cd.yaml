@@ -20,6 +20,11 @@ jobs:
         with:
           service_account: ${{ secrets.GOOGLECLOUD_SERVICE_ACCOUNT }}
           credentials_json: ${{ secrets.GOOGLECLOUD_CREDENTIALS }}
+      
+      - name: Set image tag
+        id: image_tag
+        run: echo "TAG=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_OUTPUT
+      
       - name: Build and push backend image
         uses: docker/build-push-action@v4
         with:
@@ -28,14 +33,14 @@ jobs:
           push: true
           no-cache: true
           # tags: ${{ secrets.DOCKERHUB_USERNAME }}/blog-backend:latest
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/blog-backend
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/blog-backend:${{ steps.image_tag.outputs.TAG }}
       - id: deploy-backend
         name: Deploy backend
         uses: google-github-actions/deploy-cloudrun@v1
         with:
           service: blog-backend
           # image: ${{ secrets.DOCKERHUB_USERNAME }}/blog-backend:latest
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/blog-backend
+          image: ${{ secrets.DOCKERHUB_USERNAME }}/blog-backend:${{ steps.image_tag.outputs.TAG }}
           region: ${{ secrets.GOOGLECLOUD_REGION }}
       - name: Build and push frontend image
         uses: docker/build-push-action@v4
@@ -45,7 +50,7 @@ jobs:
           push: true
           no-cache: true
           # tags: ${{ secrets.DOCKERHUB_USERNAME }}/blog-frontend:latest
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/blog-frontend
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/blog-frontend:${{ steps.image_tag.outputs.TAG }}
           build-args: VITE_BACKEND_URL=${{ steps.deploy-backend.outputs.url }}/api/v1
       - id: deploy-frontend
         name: Deploy frontend
@@ -53,5 +58,5 @@ jobs:
         with:
           service: blog-frontend
           # image: ${{ secrets.DOCKERHUB_USERNAME }}/blog-frontend:latest
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/blog-frontend
+          image: ${{ secrets.DOCKERHUB_USERNAME }}/blog-frontend:${{ steps.image_tag.outputs.TAG }}
           region: ${{ secrets.GOOGLECLOUD_REGION }}
